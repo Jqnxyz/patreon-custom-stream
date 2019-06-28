@@ -1,0 +1,33 @@
+[
+    {
+        "name": "patreon/patreon",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Patreon/patreon-php.git",
+            "reference": "4713b36d360cbdaeee1fd9f1e4445ead5de38938"
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2019-01-23T16:55:48+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Patreon\\": "src/"
+            }
+        },
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Patreon",
+                "email": "platform-team@patreon.com"
+            }
+        ],
+        "description": "Interact with the Patreon API via OAuth."
+    }
+]

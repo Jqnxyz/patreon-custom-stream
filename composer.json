@@ -1,0 +1,11 @@
+{
+	"repositories": [
+        {
+            "url": "https://github.com/Patreon/patreon-php.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "patreon/patreon": "dev-master"
+    }
+}

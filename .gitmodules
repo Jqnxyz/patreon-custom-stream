@@ -1,0 +1,3 @@
+[submodule "vendor/patreon/patreon"]
+	path = vendor/patreon/patreon
+	url = https://github.com/Patreon/
