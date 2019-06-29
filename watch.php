@@ -42,27 +42,37 @@
             background-color: black;
         }
         .stream-wrapper {
-            text-align: center;
             padding: 0;
+            margin: 0;
+            text-align: center;
+            /*padding: 0;
             margin-bottom: -4;
-            margin-top: -4;
+            margin-top: -4;*/
             float: left;
+            width:79vw;
+            height:100vh;
+        }
+        .chat-wrapper {
+            padding: 0;
+            margin: 0;
+            float: right;
+            width:19vw;
+            height:100vh;
         }
         .stream {
+            padding: 0;
+            margin: 0;
             display: inline-block;
             padding: 0;
             margin-bottom: -4;
             margin-top: -4;
         }
-        .chat-left {
-            padding: 0;
-            margin: 0;
-            float: left;
-        }
         .chat-right {
             padding: 0;
             margin: 0;
             float: top;
+            width: 100%;
+            height: 100%;
         }
         .dark-matter {
             font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -132,17 +142,11 @@
                 <div class='stream-wrapper'>
                     <div id="player" class='stream'></div>
                 </div>
+
+                <div class='chat-wrapper'>
+                    <iframe frameborder='0' scrolling='true' id='chat-first' class='chat-right' src='https://www.twitch.tv/embed/<?=$twitchChat;?>/chat?darkpopout'></iframe>
+                </div>
             </div>
-            <iframe
-                frameborder='0'
-                scrolling='true'
-                id='chat-first'
-                class='chat-right'
-                src='https://www.twitch.tv/embed/<?=$twitchChat;?>/chat?darkpopout'
-                height='1'
-                width='1'
-                style='width: 20%;'>
-            </iframe>
         </div>
     </body>
     <script type="text/javascript">
@@ -157,8 +161,15 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: window.innerHeight,
-                width: window.innerWidth * 4 / 5 - 15,
+                height: "100%",
+                width: "100%",
+                playerVars: { 
+                    'modestbranding':1, 
+                    'showinfo':0, 
+                    'autoplay': 1,
+                    'autohide': 1,
+                    'rel': 0
+                },
                 videoId: '<?=$ytID;?>',
                 events: {
                     'onReady': onPlayerReady,
@@ -176,12 +187,5 @@
         function stopVideo() {
             player.stopVideo();
         }
-
-        const firstChat = document.getElementById('chat-first')
-
-        firstChat.src = `https://www.twitch.tv/embed/<?=$twitchChat;?>/chat?darkpopout`
-
-        firstChat.height = window.innerHeight - 10
-        firstChat.width = window.innerWidth * 1 / 5
     </script>
 </html>
