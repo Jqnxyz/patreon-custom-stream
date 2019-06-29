@@ -30,7 +30,7 @@
 				$client_id = $patreonSettings['oauth']['clientID'];
 				$baseServeURL = $patreonSettings['baseURL'];
 				$checkCreatorID = $patreonSettings['creator']['ID'];
-				$CreatorEmail = $patreonSettings['creator']['email'];
+				$CreatorUserID = $patreonSettings['creator']['userID'];
 
 				$access_token = $_SESSION["access_token"];
 				$refresh_token = $_SESSION["refresh_token"];
@@ -48,7 +48,7 @@
 							$loggedIn = true;
 					    }
 					}
-					if ($patron_response['data']['attributes']['email'] == $CreatorEmail) {
+					if ($patron_response['data']['id'] == $CreatorUserID) {
 						$isCreator = true;
 					}
 					if (!$creatorMember) {

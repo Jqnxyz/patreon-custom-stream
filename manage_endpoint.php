@@ -13,7 +13,7 @@
 	//Load patreon settings from JSON
 	$patreonSettings = json_decode(file_get_contents("settings.json"), true);
 	$checkCreatorID = $patreonSettings['creator']['ID'];
-	$CreatorEmail = $patreonSettings['creator']['email'];
+	$CreatorUserID = $patreonSettings['creator']['userID'];
 
 	$access_token = $_SESSION["access_token"];
 	$refresh_token = $_SESSION["refresh_token"];
@@ -27,7 +27,7 @@
 		$api_client = new API($access_token);
 		$patron_response = $api_client->fetch_user();
 
-		if ($patron_response['data']['attributes']['email'] == $CreatorEmail) {
+		if ($patron_response['data']['id'] == $CreatorUserID) {
 			$isCreator = true;
 		}
 	}

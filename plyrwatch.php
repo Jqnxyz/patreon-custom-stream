@@ -34,13 +34,18 @@
                 $isCreator = true;
             }
 
-            if (!$creatorMember && !$isCreator) {
-                header('Location: '.$baseServeURL.'/loginfailed.php?reason=Not a patron of this creator');
+            if (!$creatorMember) {
+                header('Location: '.$baseServeURL.'/loginfailed.php?reason=Error 3');
             }
 
         ?>
         <meta charset="UTF-8" />
         <title>Patreon Stream</title>
+        <!--JQuery-->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <!-- Plyr -->        
+        <script src="https://unpkg.com/plyr@3"></script>
+        <link rel="stylesheet" href="https://unpkg.com/plyr@3/dist/plyr.css"/>
     </head>
     <!-- CUSTOMISE BELOW -->
     <script src="https://player.twitch.tv/js/embed/v1.js"></script>
@@ -73,6 +78,9 @@
             padding: 0;
             margin-bottom: -4;
             margin-top: -4;
+        }
+        .stream-wrapper .plyr {
+            height: 100%;
         }
         .chat-right {
             padding: 0;
@@ -147,9 +155,23 @@
         <div style='width: 100%;'>
             <div>
                 <div class='stream-wrapper'>
-                    <div id="player" class='stream'></div>
+                    <div class="plyr__video-embed" id="plyrPlayer">
+                        <iframe src="https://www.youtube.com/embed/<?=$ytID;?>?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1" allowfullscreen allowtransparency allow="autoplay"
+                        ></iframe>
+                    </div>
                 </div>
+                <script>
+                    // Change "{}" to your options:
+                    // https://github.com/sampotts/plyr/#options
+                    const player = new Plyr('#plyrPlayer', {
+                        settings: ['quality'],
+                        autoplay: true
+                    });
 
+                    // Expose player so it can be used from the console
+                    window.player = player;
+
+                </script>
                 <div class='chat-wrapper'>
                     <iframe frameborder='0' scrolling='true' id='chat-first' class='chat-right' src='https://www.twitch.tv/embed/<?=$twitchChat;?>/chat?darkpopout'></iframe>
                 </div>
@@ -160,39 +182,6 @@
         document.documentElement.style.overflow = 'hidden' // firefox, chrome
         document.body.scroll = 'no' // ie only
         
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        var player;
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: "100%",
-                width: "100%",
-                playerVars: { 
-                    'modestbranding':1, 
-                    'showinfo':0, 
-                    'autoplay': 1,
-                    'autohide': 1,
-                    'rel': 0
-                },
-                videoId: '<?=$ytID;?>',
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-
-        function onPlayerStateChange(event) {}
-
-        function stopVideo() {
-            player.stopVideo();
-        }
+        
     </script>
 </html>

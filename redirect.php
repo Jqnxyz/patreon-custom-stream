@@ -6,12 +6,12 @@
 
 	//Load patreon settings from JSON
 	$patreonSettings = json_decode(file_get_contents("settings.json"), true);
-	$baseServeURL = $patreonSettings['baseURL'];
+	$baseServeURL = $patreonSettings['baseURL'];	
 	$client_id = $patreonSettings['oauth']['clientID'];
 	$client_secret = $patreonSettings['oauth']['clientSecret'];
 	$redirect_uri = $patreonSettings['oauth']['redirectURI'];
 	$checkCreatorID = $patreonSettings['creator']['ID'];
-	$CreatorEmail = $patreonSettings['creator']['email'];
+	$CreatorUserID = $patreonSettings['creator']['userID'];
 
 	$patCode = $_GET['code'];
 	$patState = $_GET['state'];
@@ -32,10 +32,14 @@
 				$creatorMember = true;
 			}
 		}
-		if ($creatorMember || $patron_response['data']['email'] == $CreatorEmail) {
+		error_log("Email: ".$patron_response['data']['attributes']['email']);
+		error_log("Response: ".json_encode($patron_response));
+
+
+		if ($creatorMember || $patron_response['data']['id'] == $CreatorUserID) {
 			$_SESSION["access_token"]=$access_token;
 			$_SESSION["refresh_token"]=$refresh_token;
-			if ($patState == "manage" && $patron_response['data']['attributes']['email'] == $CreatorEmail) {
+			if ($patState == "manage" && $patron_response['data']['id'] == $CreatorUserID) {
 				header('Location: '.$baseServeURL.'/creatormanage.php');
 			} else {
 				header('Location: '.$baseServeURL.'/watch.php');

@@ -20,7 +20,7 @@ _e.g. "https://stream.example.com"_.
 ```JSON
 {
     "creator":{
-        "email":"[YOUR EMAIL]",
+        "userID":"[YOUR USERID] (get using API)",
         "ID":"[YOUR PATREON ID (get using API)]"
     },
     "oauth":{
