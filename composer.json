@@ -6,6 +6,7 @@
         }
     ],
     "require": {
-        "patreon/patreon": "dev-master"
+        "patreon/patreon": "dev-master",
+		"google/apiclient": "^2.0"
     }
 }

@@ -40,17 +40,19 @@
 			switch ($postAction) {
 				case changeYTID:
 					$streamSettings['YTID'] = $postValue;
-					$newstreamSettings = json_encode($streamSettings);
+					$newstreamSettings = json_encode($streamSettings, JSON_PRETTY_PRINT);
 					file_put_contents('stream.json', $newstreamSettings);
 					$outputData = "YTID updated";
 					$outputSuccess = true;
 				break;
 				case changeTwitchChat:
 					$streamSettings['twitchChat'] = $postValue;
-					$newstreamSettings = json_encode($streamSettings);
+					$newstreamSettings = json_encode($streamSettings, JSON_PRETTY_PRINT);
 					file_put_contents('stream.json', $newstreamSettings);
 					$outputData = "twitchChat updated";
 					$outputSuccess = true;
+				break;
+				case revokeGoogle:
 				break;
 				default:
 					$outputData = "Action unspecified or does not exist";

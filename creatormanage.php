@@ -15,6 +15,11 @@
             $checkCreatorID = $patreonSettings['creator']['ID'];
             $CreatorUserID = $patreonSettings['creator']['userID'];
 
+            $g_Access = $patreonSettings['creator']['gAccess'];
+            $g_clientID = $patreonSettings['google-oauth']['clientID'];
+            $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'];
+            $g_API = $patreonSettings['google-oauth']['API'];
+
             $access_token = $_SESSION["access_token"];
             $refresh_token = $_SESSION["refresh_token"];
             $api_client = new API($access_token);
@@ -36,9 +41,12 @@
         <!--link rel="icon" type="image/png" href="assets/images/favicon.png"-->
         <!--JQuery-->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <!--Google Identity-->
+        <script src="https://apis.google.com/js/api.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
     <body>
-        <div class="container" style="padding-top: 35vh">
+        <div class="container" style="padding-top: 5vh">
             <h2>Patreon Stream Management</h2>
             <p>Logged in as <b><?= $patron_response['data']['attributes']['email'] ?></b></p>
             <div class="row">
@@ -97,14 +105,78 @@
                         });
                 </script>
                 </div>
+                <div class="one-half column u-pull-right">
+                    <div>
+                        <h6>Google Auth</h6>
+                        <button class="button-primary" id="gSignInBtn">Authorise</button>
+                        <button class="button" id="gRevokeBtn" style="display: none;">Revoke access</button>
+                        <p id="content"></p>
+                        <script type="text/javascript">
+                            var gAuthorised = <?php if ($g_Access != '') { echo 'true'; } else { echo 'false'; }; ?>;
+
+                            if (gAuthorised) {
+                                $("#gSignInBtn").hide();
+                                $("#gRevokeBtn").show();
+                            } else {
+                                $("#gSignInBtn").show();
+                                $("#gRevokeBtn").hide();
+                            }
+
+                            $("#gSignInBtn").click(function(){
+                                oauthSignIn();
+                            });
+
+                            $("#gRevokeBtn").click(function(){
+
+                            });
+
+                            var GoogleAuth;
+                            var clientId = '<?=$g_clientID;?>';
+                            var scope = 'https://www.googleapis.com/auth/youtube.readonly';
+
+                            function oauthSignIn() {
+                                // Google's OAuth 2.0 endpoint for requesting an access token
+                                var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+                                // Create <form> element to submit parameters to OAuth 2.0 endpoint.
+                                var form = document.createElement('form');
+                                form.setAttribute('method', 'GET'); // Send as a GET request.
+                                form.setAttribute('action', oauth2Endpoint);
+
+                                // Parameters to pass to OAuth 2.0 endpoint.
+                                var params = {'client_id': '<?=$g_clientID;?>',
+                                    'access_type': 'offline',
+                                    'redirect_uri': '<?=$g_redirect_uri;?>',
+                                    'response_type': 'code',
+                                    'scope': scope,
+                                    'include_granted_scopes': 'true',
+                                    'state': 'gsignin'};
+
+                                // Add form parameters as hidden input values.
+                                for (var p in params) {
+                                    var input = document.createElement('input');
+                                    input.setAttribute('type', 'hidden');
+                                    input.setAttribute('name', p);
+                                    input.setAttribute('value', params[p]);
+                                    form.appendChild(input);
+                                }
+
+                                // Add form to page and submit it to open the OAuth 2.0 endpoint.
+                                document.body.appendChild(form);
+                                form.submit();
+                            }
+                        </script>
+                        <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
+                        </script>
+                    </div>
+                    <hr/>
+                    <a class="button" href="watch.php">Watch Stream</a>
+                    <a class="button" href="logout.php">Logout</a>
+                </div>
             </div>
             <div class="row">
                 <div class="one-half column u-pull-left">
                     <p><b id="outputBox"></b></p>
-                </div>
-                <div class="one-half column u-pull-right">
-                    <a class="button" href="watch.php">Watch Stream</a>
-                    <a class="button" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

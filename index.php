@@ -42,11 +42,9 @@
 					$patron_response = $api_client->fetch_user();
 
 					$creatorMember = false;
-					foreach($patron_response['data']['relationships']['memberships']['data'] as $memberInfo) {
-					    if ($memberInfo['id'] == $checkCreatorID) {
-					        $creatorMember = true;
+					if ($patron_response['data']['relationships']['memberships']['data'][0]['type'] == "member") {
+							$creatorMember = true;
 							$loggedIn = true;
-					    }
 					}
 					if ($patron_response['data']['id'] == $CreatorUserID) {
 						$isCreator = true;

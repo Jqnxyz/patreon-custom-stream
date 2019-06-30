@@ -24,10 +24,9 @@
 
             $creatorMember = false;
             $isCreator = false;
-            foreach($patron_response['data']['relationships']['memberships']['data'] as $memberInfo) {
-                if ($memberInfo['id'] == $checkCreatorID) {
+            
+            if ($patron_response['data']['relationships']['memberships']['data'][0]['type'] == "member") {
                     $creatorMember = true;
-                }
             }
 
             if ($patron_response['data']['id'] == $CreatorUserID) {
