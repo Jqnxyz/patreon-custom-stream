@@ -10,15 +10,15 @@
 
             //Load patreon settings from JSON
             $patreonSettings = json_decode(file_get_contents("settings.json"), true);
-            $baseServeURL = $patreonSettings['baseURL'];
-            $checkCreatorID = $patreonSettings['creator']['ID'];
+            $baseServeURL = $patreonSettings['baseURL'] ?? '';
+            $checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
             $streamSettings = json_decode(file_get_contents("stream.json"), true);
-            $ytID = $streamSettings['YTID'];
-            $twitchChat = $streamSettings['twitchChat'];
-            $CreatorUserID = $patreonSettings['creator']['userID'];
+            $ytID = $streamSettings['YTID'] ?? '';
+            $twitchChat = $streamSettings['twitchChat'] ?? '';
+            $CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
-            $access_token = $_SESSION["access_token"];
-            $refresh_token = $_SESSION["refresh_token"];
+            $access_token = $_SESSION["access_token"] ?? '';
+            $refresh_token = $_SESSION["refresh_token"] ?? '';
             $api_client = new API($access_token);
             $patron_response = $api_client->fetch_user();
 

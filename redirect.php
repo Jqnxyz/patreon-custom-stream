@@ -7,15 +7,15 @@
 
 	//Load patreon settings from JSON
 	$patreonSettings = json_decode(file_get_contents("settings.json"), true);
-	$baseServeURL = $patreonSettings['baseURL'];	
-	$client_id = $patreonSettings['oauth']['clientID'];
-	$client_secret = $patreonSettings['oauth']['clientSecret'];
-	$redirect_uri = $patreonSettings['oauth']['redirectURI'];
-	$checkCreatorID = $patreonSettings['creator']['ID'];
-	$CreatorUserID = $patreonSettings['creator']['userID'];
+	$baseServeURL = $patreonSettings['baseURL'] ?? '';
+	$client_id = $patreonSettings['oauth']['clientID'] ?? '';
+	$client_secret = $patreonSettings['oauth']['clientSecret'] ?? '';
+	$redirect_uri = $patreonSettings['oauth']['redirectURI'] ?? '';
+	$checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
+	$CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
-    $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'];
-    $g_API = $patreonSettings['google-oauth']['API'];
+    $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'] ?? '';
+    $g_API = $patreonSettings['google-oauth']['API'] ?? '';
 
 	$client = new Google_Client();
 	$client->setAuthConfig('client_secret.json');
@@ -26,8 +26,8 @@
 	$outputData = "";
 	$outputSuccess = false;
 
-	$patCode = $_GET['code'];
-	$patState = $_GET['state'];
+	$patCode = $_GET['code'] ?? '';
+	$patState = $_GET['state'] ?? '';
 
 	if ($patState == "gsignin") {
 		if ($_GET['code'] != '') {
@@ -73,10 +73,10 @@
 			}
 		}
 		*/
-		error_log("Email: ".$patron_response['data']['attributes']['email']);
+		//error_log("Email: ".$patron_response['data']['attributes']['email']);
 		error_log("Is Patron: ".$patron_response['included'][0]['attributes']['patron_status']);
 		error_log("data: ".$patron_response['data']['relationships']['memberships']['data'][0]['type']);
-		error_log("Response: ".json_encode($patron_response));
+		error_log("Response: ".json_encode($patron_response, JSON_PRETTY_PRINT));
 
 
 		if ($creatorMember || $patron_response['data']['id'] == $CreatorUserID) {
@@ -96,7 +96,7 @@
 		header('Location: '.$baseServeURL.'/loginfailed.php');
 	}
 
-	if ($outputSuccess == false) {
+	if ($outputSuccess == false && $outputData != "") {
 		error_log("Redirect Error: ".$outputData);
 	}
 

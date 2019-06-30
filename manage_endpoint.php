@@ -12,13 +12,13 @@
 	$streamSettings = json_decode(file_get_contents("stream.json"), true);
 	//Load patreon settings from JSON
 	$patreonSettings = json_decode(file_get_contents("settings.json"), true);
-	$checkCreatorID = $patreonSettings['creator']['ID'];
-	$CreatorUserID = $patreonSettings['creator']['userID'];
+	$checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
+	$CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
-	$access_token = $_SESSION["access_token"];
-	$refresh_token = $_SESSION["refresh_token"];
-	$postAction = $_POST['manageAction'];
-	$postValue = $_POST['manageValue'];
+	$access_token = $_SESSION["access_token"] ?? '';
+	$refresh_token = $_SESSION["refresh_token"] ?? '';
+	$postAction = $_POST['manageAction'] ?? '';
+	$postValue = $_POST['manageValue'] ?? '';
 
 	if ($access_token == '') {
 		$loggedIn = false;

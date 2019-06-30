@@ -11,17 +11,17 @@
             
             //Load patreon settings from JSON
             $patreonSettings = json_decode(file_get_contents("settings.json"), true);
-            $baseServeURL = $patreonSettings['baseURL'];
-            $checkCreatorID = $patreonSettings['creator']['ID'];
-            $CreatorUserID = $patreonSettings['creator']['userID'];
+            $baseServeURL = $patreonSettings['baseURL'] ?? '';
+            $checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
+            $CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
-            $g_Access = $patreonSettings['creator']['gAccess'];
-            $g_clientID = $patreonSettings['google-oauth']['clientID'];
-            $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'];
-            $g_API = $patreonSettings['google-oauth']['API'];
+            $g_Access = $patreonSettings['creator']['gAccess'] ?? '';
+            $g_clientID = $patreonSettings['google-oauth']['clientID'] ?? '';
+            $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'] ?? '';
+            $g_API = $patreonSettings['google-oauth']['API'] ?? '';
 
-            $access_token = $_SESSION["access_token"];
-            $refresh_token = $_SESSION["refresh_token"];
+            $access_token = $_SESSION["access_token"] ?? '';
+            $refresh_token = $_SESSION["refresh_token"] ?? '';
             $api_client = new API($access_token);
             $patron_response = $api_client->fetch_user();
 
@@ -48,7 +48,7 @@
     <body>
         <div class="container" style="padding-top: 5vh">
             <h2>Patreon Stream Management</h2>
-            <p>Logged in as <b><?= $patron_response['data']['attributes']['email'] ?></b></p>
+            <p>Logged in as <b><?= $patron_response['data']['id'] ?></b></p>
             <div class="row">
                 <div class="one-half column">
                     <label for="streamIDupdate">YouTube Stream ID</label>

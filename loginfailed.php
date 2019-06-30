@@ -5,8 +5,8 @@
 		<?php 
 			//Load patreon settings from JSON
 			$patreonSettings = json_decode(file_get_contents("settings.json"), true);
-			$client_id = $patreonSettings['oauth']['clientID'];
-			$baseServeURL = $patreonSettings['baseURL'];
+			$client_id = $patreonSettings['oauth']['clientID'] ?? '';
+			$baseServeURL = $patreonSettings['baseURL'] ?? '';
 		?>
 		<meta charset="utf-8">
 		<title>Patreon Stream</title>

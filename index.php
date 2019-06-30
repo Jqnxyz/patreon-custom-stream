@@ -27,13 +27,13 @@
 
 				//Load patreon settings from JSON
 				$patreonSettings = json_decode(file_get_contents("settings.json"), true);
-				$client_id = $patreonSettings['oauth']['clientID'];
-				$baseServeURL = $patreonSettings['baseURL'];
-				$checkCreatorID = $patreonSettings['creator']['ID'];
-				$CreatorUserID = $patreonSettings['creator']['userID'];
+				$client_id = $patreonSettings['oauth']['clientID'] ?? '';
+				$baseServeURL = $patreonSettings['baseURL'] ?? '';
+				$checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
+				$CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
-				$access_token = $_SESSION["access_token"];
-				$refresh_token = $_SESSION["refresh_token"];
+				$access_token = $_SESSION["access_token"] ?? '';
+				$refresh_token = $_SESSION["refresh_token"] ?? '';
 
 				if ($access_token == '' || $refresh_token == '') {
 					$loggedIn = false;
