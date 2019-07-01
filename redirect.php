@@ -11,7 +11,6 @@
 	$client_id = $patreonSettings['oauth']['clientID'] ?? '';
 	$client_secret = $patreonSettings['oauth']['clientSecret'] ?? '';
 	$redirect_uri = $patreonSettings['oauth']['redirectURI'] ?? '';
-	$checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
 	$CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
     $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'] ?? '';
@@ -66,19 +65,11 @@
 		if ($patron_response['data']['relationships']['memberships']['data'][0]['type'] == "member") {
 				$creatorMember = true;
 		}
-		/*
-		foreach($patron_response['data']['relationships']['memberships']['data'] as $memberInfo) {
-			if ($memberInfo['id'] == $checkCreatorID) {
-				$creatorMember = true;
-			}
-		}
-		*/
-		//error_log("Email: ".$patron_response['data']['attributes']['email']);
-		error_log("Is Patron: ".$patron_response['included'][0]['attributes']['patron_status']);
-		error_log("data: ".$patron_response['data']['relationships']['memberships']['data'][0]['type']);
-		error_log("Response: ".json_encode($patron_response, JSON_PRETTY_PRINT));
+		//error_log("Is Patron: ".$patron_response['included'][0]['attributes']['patron_status']);
+		//error_log("data: ".$patron_response['data']['relationships']['memberships']['data'][0]['type']);
+		//error_log("Response: ".json_encode($patron_response, JSON_PRETTY_PRINT));
 
-
+		file_put_contents('latest_patreon_login_id.txt',$patron_response['data']['id']);
 		if ($creatorMember || $patron_response['data']['id'] == $CreatorUserID) {
 			$_SESSION["access_token"]=$access_token;
 			$_SESSION["refresh_token"]=$refresh_token;

@@ -13,8 +13,8 @@
 		<!--link rel="icon" type="image/png" href="assets/images/favicon.png"-->
 	</head>
 	<body>
-		<div class="container" style="padding-top: 35vh">
-			<h2>Patreon Stream</h2>
+		<div class="container" style="padding-top: 5vh">
+			<h2>Zlux.us Private Patreon Streams</h2>
 			<?php
 				require_once __DIR__.'/vendor/autoload.php';
 				 
@@ -29,7 +29,6 @@
 				$patreonSettings = json_decode(file_get_contents("settings.json"), true);
 				$client_id = $patreonSettings['oauth']['clientID'] ?? '';
 				$baseServeURL = $patreonSettings['baseURL'] ?? '';
-				$checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
 				$CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
 				$access_token = $_SESSION["access_token"] ?? '';
@@ -56,6 +55,23 @@
 			?>
 			<div class="row">
 				<div class="one-half column">
+					<h5>What is this?</h5>
+					<p>
+						Patreon Stream is a service for Patreon creators to host private streams for their patrons.
+					</p>
+					<h5>For patrons</h5>
+					<p>
+						Sign in with your Patreon account to start watching your favourite creators!
+					</p>
+					<h5>For creators</h5>
+					<p>
+						Customize your preferred stream setup with support for YouTube and Twitch RTMP streams. Mix and match with the ability to stream through YouTube while utilising Twitch chat's extensive emotes and moderation tools.
+					</p>
+					<p>
+						Google integration in the management portal allows us to automatically detect when a new video/stream is started and serve users the latest content. 
+					</p>
+				</div>
+				<div class="one-half column">
 					<h5><?php 
 						if ($loggedIn) { 
 							echo "You are logged in"; 
@@ -63,8 +79,6 @@
 							echo "Log in with Patreon"; 
 						} 
 					?></h5>
-				</div>
-				<div class="one-half column">
 					<?php 
 						if (!$loggedIn) { 
 							echo '
@@ -87,4 +101,13 @@
 			</div>
 		</div>
 	</body>
+	<footer>
+		<div class="container">
+			<center>
+				Jerome Quah 2019 &bull; zlux@jqnxyz.xyz
+				<p><a href="https://zlux.us/privacy.php">Privacy</a> &bull; <a href="https://zlux.us/terms.php">Terms</a></p>
+				<p>More services at <a href="//zlux.us">Zlux.us</a></p>
+			</center>
+		</div>
+	</footer>
 </html>

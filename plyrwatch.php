@@ -11,7 +11,6 @@
             //Load patreon settings from JSON
             $patreonSettings = json_decode(file_get_contents("settings.json"), true);
             $baseServeURL = $patreonSettings['baseURL'] ?? '';
-            $checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
             $streamSettings = json_decode(file_get_contents("stream.json"), true);
             $ytID = $streamSettings['YTID'] ?? '';
             $twitchChat = $streamSettings['twitchChat'] ?? '';

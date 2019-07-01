@@ -12,7 +12,6 @@
             //Load patreon settings from JSON
             $patreonSettings = json_decode(file_get_contents("settings.json"), true);
             $baseServeURL = $patreonSettings['baseURL'] ?? '';
-            $checkCreatorID = $patreonSettings['creator']['ID'] ?? '';
             $CreatorUserID = $patreonSettings['creator']['userID'] ?? '';
 
             $g_Access = $patreonSettings['creator']['gAccess'] ?? '';
@@ -51,6 +50,7 @@
             <p>Logged in as <b><?= $patron_response['data']['id'] ?></b></p>
             <div class="row">
                 <div class="one-half column">
+                    <a class="button button-primary" id="autoYTbtn" href="#!">Grab Stream ID</a>
                     <label for="streamIDupdate">YouTube Stream ID</label>
                     <input class="u-full-width" type="text" placeholder="dQw4w9WgXcQ" id="streamIDupdate">
                     <a class="button button-primary" id="YTIDbtn" href="#!">Update Stream ID</a>
@@ -78,6 +78,27 @@
                                 } else {
                                     console.log("Failed: "+data.message);
                                     $("#outputBox").text("Failed to changed YouTube Stream ID");
+                                }
+                            });
+                        });
+
+                        $("#autoYTbtn").click(function(){
+                            $.ajax({
+                                method: "POST",
+                                xhrFields: {withCredentials:true},
+                                url: "<?=$baseServeURL;?>/manage_endpoint.php",
+                                data: { 
+                                    "manageAction": "grabYTID"
+                                }
+                            })
+                            .done(function( returnData ) {
+                                var data = returnData;
+                                if (data.success) {
+                                    console.log("Success: "+data.message);
+                                    $("#outputBox").text("Found and updated YouTube Stream ID");
+                                } else {
+                                    console.log("Failed: "+data.message);
+                                    $("#outputBox").text("Failed to find YouTube Stream ID");
                                 }
                             });
                         });
@@ -127,7 +148,24 @@
                             });
 
                             $("#gRevokeBtn").click(function(){
-
+                                $.ajax({
+                                    method: "POST",
+                                    xhrFields: {withCredentials:true},
+                                    url: "<?=$baseServeURL;?>/manage_endpoint.php",
+                                    data: { 
+                                        "manageAction": "revokeGoogle"
+                                    }
+                                })
+                                .done(function( returnData ) {
+                                    var data = returnData;
+                                    if (data.success) {
+                                        console.log("Success: "+data.message);
+                                        $("#outputBox").text("Successfully revoked Google access");
+                                    } else {
+                                        console.log("Failed: "+data.message);
+                                        $("#outputBox").text("Failed to revoke Google access");
+                                    }
+                                });
                             });
 
                             var GoogleAuth;
