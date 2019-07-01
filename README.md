@@ -22,11 +22,11 @@ Click on `Restrict Key`, select `HTTP Referrers` under Application Referrers.
 Under Website restrictions, add `https://*.[host domain]/*` as a new item.
 
 
-Create a file *settings.json* in the base directory.
+Create a file *settings.json* in the base directoryy.
 
 Copy the following JSON data to the file, replacing values with your own.
 
-```JSON
+```json
 {
     "creator": {
         "userID": "[PATREON USER ID]",
