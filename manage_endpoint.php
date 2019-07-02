@@ -28,7 +28,7 @@
 	if ($localAction != '') {
 		$postAction = $localAction;
 		$postValue = $localValue;
-		fwrite(STDOUT, "Local Action and Value: ".$localAction.",".$localValue);
+		//fwrite(STDOUT, "Local Action and Value: ".$localAction.",".$localValue);
 	}
 
     $g_redirect_uri = $patreonSettings['google-oauth']['redirectURI'] ?? '';
@@ -95,7 +95,7 @@
 		if ($g_tokenCreated+$g_tokenExpires-300 <= time()) {
 			$new_access_token = $client->refreshToken($g_refreshToken);
 			$cleanNew = json_encode($new_access_token, JSON_PRETTY_PRINT);
-			fwrite(STDOUT, "New Access: ".$cleanNew);
+			//fwrite(STDOUT, "New Access: ".$cleanNew);
 			$client->setAccessToken($new_access_token);
 			$changeSettings = json_decode(file_get_contents("settings.json"), true);
 		    $changeSettings['creator']['gAccess']['access_token'] = $new_access_token['access_token'];
@@ -106,7 +106,7 @@
 			file_put_contents('settings.json', $newchangeSettings);
 			refreshSettings();
 		} else {
-			fwrite(STDOUT, "Old token still valid.");
+			//fwrite(STDOUT, "Old token still valid.");
 		}
 	}
 
@@ -128,8 +128,14 @@
 				case 'revokeGoogle':
 					validateAccessToken();
 					$client->revokeToken();
+
+					$changeSettings = json_decode(file_get_contents("settings.json"), true);
+					$changeSettings['creator']['gAccess'] = "";
+					$newchangeSettings = json_encode($changeSettings, JSON_PRETTY_PRINT);
+					file_put_contents('settings.json', $newchangeSettings);
+
 					$outputData = "Access Revoked";
-					$outputSuccess = dio_truncate(fd, offset);
+					$outputSuccess = true;
 				break;
 				case 'grabYTID':
 					validateAccessToken();
@@ -160,11 +166,11 @@
 							$outputData = "No videos uploaded";
 							$outputSuccess = false;
 						} else {
-							for ($i = 0; $i < 15; $i++){
+							for ($i = 0; $i < sizeof($ytList['items']); $i++){
 								if (strpos($ytList['items'][$i]['snippet'][$ytStreamSearchKey], $ytStreamKeyword) !== false){
 									$ytLatestStreamID = $ytList['items'][$i]['contentDetails']['videoId'];
 									updateYTstreamID($ytLatestStreamID);
-									fwrite(STDOUT, "Found ID: ".$ytLatestStreamID);
+									//fwrite(STDOUT, "Found ID: ".$ytLatestStreamID);
 									break;
 								}	
 							}
@@ -196,7 +202,7 @@
 	//Return
 	if ($localAction != ''){
 		if ($outputSuccess) {
-			fwrite(STDOUT, $outputData);
+			//fwrite(STDOUT, $outputData);
 		} else {
 			error_log("General Error: ".$outputData);
 		}

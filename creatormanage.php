@@ -50,7 +50,7 @@
             <p>Logged in as <b><?= $patron_response['data']['id'] ?></b></p>
             <div class="row">
                 <div class="one-half column">
-                    <a class="button button-primary" id="autoYTbtn" href="#!">Grab Stream ID</a>
+                    <?php if ($g_Access != '') { echo '<a class="button button-primary" id="autoYTbtn" href="#!">Grab Stream ID</a>'; }; ?>
                     <label for="streamIDupdate">YouTube Stream ID</label>
                     <input class="u-full-width" type="text" placeholder="dQw4w9WgXcQ" id="streamIDupdate">
                     <a class="button button-primary" id="YTIDbtn" href="#!">Update Stream ID</a>
@@ -128,7 +128,7 @@
                 </div>
                 <div class="one-half column u-pull-right">
                     <div>
-                        <h6>Google Auth</h6>
+                        <h6>Google Integration</h6>
                         <button class="button-primary" id="gSignInBtn">Authorise</button>
                         <button class="button" id="gRevokeBtn" style="display: none;">Revoke access</button>
                         <p id="content"></p>
@@ -161,6 +161,9 @@
                                     if (data.success) {
                                         console.log("Success: "+data.message);
                                         $("#outputBox").text("Successfully revoked Google access");
+                                        $("#gSignInBtn").show();
+                                        $("#gRevokeBtn").hide();
+                                        $("#autoYTbtn").hide();
                                     } else {
                                         console.log("Failed: "+data.message);
                                         $("#outputBox").text("Failed to revoke Google access");
